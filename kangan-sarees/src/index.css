@@ -1,0 +1,102 @@
+/* ================= IMPORT FONTS ================= */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600&display=swap');
+
+/* ================= ROOT VARIABLES ================= */
+:root {
+  --color-primary: #D4A373;
+  --color-secondary: #FFDAB9;
+  --color-background: #FFF0E6;
+  --color-dark: #3A2F28;
+  --color-text-main: #2C241E;
+  --color-text-muted: #6B5E55;
+
+  --font-heading: 'Playfair Display', serif;
+  --font-body: 'Poppins', sans-serif;
+
+  --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* ================= RESET ================= */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ================= HTML & BODY ================= */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-background);
+  color: var(--color-text-main);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ================= TYPOGRAPHY ================= */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  color: var(--color-dark);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  font-family: var(--font-body);
+  border: none;
+  outline: none;
+}
+
+/* ================= LAYOUT ================= */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ================= BUTTON ================= */
+.btn-primary {
+  background-color: var(--color-dark);
+  color: var(--color-secondary);
+  padding: 12px 30px;
+  text-transform: uppercase;
+  border-radius: 4px;
+  transition: var(--transition-smooth);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+/* ================= 🚨 OVERLAY FIX ================= */
+/* Prevent invisible layers blocking clicks */
+body * {
+  pointer-events: auto;
+}
+
+/* Kill accidental full screen overlays */
+div[style*="position: fixed"] {
+  pointer-events: auto !important;
+}
+
+/* Remove click block from invisible elements */
+div[style*="opacity: 0"] {
+  pointer-events: none !important;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 768px) {
+  html {
+    font-size: 14px;
+  }
+}

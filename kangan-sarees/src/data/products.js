@@ -1,0 +1,95 @@
+const products = [
+  {
+    id: 1,
+    name: "Royal Banarasi Silk Saree",
+    category: "Sarees",
+    isTopSelling: true,
+    image: "/images/banarasi.png",
+  },
+  {
+    id: 2,
+    name: "Classic Kanjivaram Saree",
+    category: "Sarees",
+    isTopSelling: true,
+    image: "/images/kanjivaram.png",
+  },
+  {
+    id: 3,
+    name: "Pure Paithani Saree",
+    category: "Sarees",
+    isTopSelling: true,
+    image: "/images/paithani.png",
+  },
+  {
+    id: 4,
+    name: "Pure Cotton Saree",
+    category: "Sarees",
+    isTopSelling: false,
+    image: "/images/cotton.png",
+  },
+  {
+    id: 5,
+    name: "Bridal Lehenga",
+    category: "Lehengas",
+    isTopSelling: true,
+    image: "/images/lehenga.png",
+  },
+  {
+    id: 6,
+    name: "Designer Party Wear Saree",
+    category: "Sarees",
+    isTopSelling: false,
+    image: "/images/partywear.png",
+  },
+  {
+    id: 7,
+    name: "Khadi Collection",
+    category: "Sarees",
+    isTopSelling: false,
+    image: "/images/khadi.png",
+  },
+  {
+    id: 8,
+    name: "Chiffon Saree",
+    category: "Sarees",
+    isTopSelling: false,
+    image: "/images/chiffon.png",
+  },
+  {
+    id: 9,
+    name: "Premium Gown",
+    category: "Gowns",
+    isTopSelling: false,
+    image: "/images/gown.png",
+  },
+  {
+    id: 10,
+    name: "Luxury Bedsheet",
+    category: "Home Decor",
+    isTopSelling: false,
+    image: "/images/bedsheet.png",
+  },
+  {
+    id: 11,
+    name: "Classic Sherwani",
+    category: "Men's Ethnic Wear",
+    isTopSelling: false,
+    image: "/images/sherwani.png",
+  },
+  {
+    id: 12,
+    name: "Festive Waistcoat",
+    category: "Men's Ethnic Wear",
+    isTopSelling: false,
+    image: "/images/waistcoat.png",
+  },
+  {
+    id: 13,
+    name: "Kurta Pajama",
+    category: "Men's Ethnic Wear",
+    isTopSelling: false,
+    image: "/images/kurta.png",
+  }
+];
+
+export default products;
