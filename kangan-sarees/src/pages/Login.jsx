@@ -35,8 +35,19 @@ const Login = () => {
     }
 
     setLoading(true);
-    const role =
-      email.trim().toLowerCase() === "kangansarees2000@gmail.com" ? "admin" : "customer";
+    
+    let role = "customer";
+    const adminEmail = import.meta.env.VITE_ADMIN_EMAIL?.toLowerCase();
+    
+    if (adminEmail && email.trim().toLowerCase() === adminEmail) {
+      if (password !== import.meta.env.VITE_ADMIN_PASSWORD) {
+        setLoading(false);
+        setError("Invalid admin password.");
+        return;
+      }
+      role = "admin";
+    }
+
     localStorage.setItem(USER_KEY, JSON.stringify({ role }));
     window.dispatchEvent(new Event("kangan-auth"));
     navigate(role === "admin" ? "/admin" : "/", { replace: true });
@@ -61,7 +72,7 @@ const Login = () => {
               value={email} 
               onChange={(e) => setEmail(e.target.value)} 
               style={styles.input} 
-              placeholder="kangansarees2000@gmail.com"
+              placeholder="Enter your email"
               required
             />
           </div>
