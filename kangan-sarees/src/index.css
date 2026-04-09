@@ -1,23 +1,37 @@
 /* ================= IMPORT FONTS ================= */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Poppins:wght@300;400;500;600&display=swap');
 
 /* ================= ROOT VARIABLES ================= */
 :root {
-  --color-primary: #D4A373;
-  --color-secondary: #FFDAB9;
-  --color-background: #FFF0E6;
-  --color-dark: #3A2F28;
-  --color-text-main: #2C241E;
+  --color-primary: #800020;
+  --color-secondary: #FFFFFF;
+  --color-background: #FFD7BF;
+  --color-bg-soft: #FFF0E8;
+  --color-dark: #4A0011;
+  --color-text-main: #2A1114;
   --color-text-muted: #6B5E55;
+  --color-gold: #C9A96E;
+  --color-gold-light: #E8D5B0;
+  --color-cream: #FFF8F0;
 
-  --font-heading: 'Playfair Display', serif;
+  --font-heading: 'Cormorant Garamond', serif;
   --font-body: 'Poppins', sans-serif;
 
   --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  --transition-slow: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+  --shadow-card: 0 4px 24px rgba(74, 0, 17, 0.10);
+  --shadow-card-hover: 0 16px 48px rgba(74, 0, 17, 0.18);
+  --shadow-gold: 0 4px 24px rgba(201, 169, 110, 0.25);
+
+  --radius-card: 16px;
+  --radius-btn: 6px;
+
+  --section-padding: 100px 0;
 }
 
 /* ================= RESET ================= */
-* {
+*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -57,46 +71,298 @@ button {
 
 /* ================= LAYOUT ================= */
 .container {
-  max-width: 1200px;
+  max-width: 1280px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 24px;
+}
+
+/* ================= SECTION HEADERS ================= */
+.section-label {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  margin-bottom: 10px;
+  display: block;
+}
+
+.section-title-lg {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 600;
+  color: var(--color-dark);
+  line-height: 1.15;
+}
+
+.section-title-lg.light {
+  color: #fff;
+}
+
+.gold-divider {
+  width: 48px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-gold), var(--color-primary));
+  border-radius: 2px;
+  margin: 18px 0 24px;
+}
+
+.gold-divider.center {
+  margin: 18px auto 24px;
 }
 
 /* ================= BUTTON ================= */
 .btn-primary {
-  background-color: var(--color-dark);
-  color: var(--color-secondary);
-  padding: 12px 30px;
+  background: linear-gradient(135deg, var(--color-dark) 0%, var(--color-primary) 100%);
+  color: #fff;
+  padding: 14px 36px;
   text-transform: uppercase;
-  border-radius: 4px;
+  letter-spacing: 0.12em;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: var(--radius-btn);
   transition: var(--transition-smooth);
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.12);
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .btn-primary:hover {
-  background-color: var(--color-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(74,0,17,0.35);
   color: #fff;
+}
+
+.btn-primary:hover::after {
+  opacity: 1;
+}
+
+.btn-outline-gold {
+  display: inline-block;
+  padding: 13px 34px;
+  border: 1.5px solid var(--color-gold);
+  color: var(--color-gold);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: var(--radius-btn);
+  transition: var(--transition-smooth);
+  font-family: var(--font-body);
+}
+
+.btn-outline-gold:hover {
+  background: var(--color-gold);
+  color: var(--color-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-gold);
+}
+
+.btn-outline-white {
+  display: inline-block;
+  padding: 13px 34px;
+  border: 1.5px solid rgba(255,255,255,0.7);
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: var(--radius-btn);
+  transition: var(--transition-smooth);
+  font-family: var(--font-body);
+}
+
+.btn-outline-white:hover {
+  background: rgba(255,255,255,0.15);
   transform: translateY(-2px);
 }
 
-/* ================= 🚨 OVERLAY FIX ================= */
-/* Prevent invisible layers blocking clicks */
-body * {
-  pointer-events: auto;
+/* ================= SCROLL REVEAL ================= */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
 }
 
-/* Kill accidental full screen overlays */
-div[style*="position: fixed"] {
-  pointer-events: auto !important;
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-/* Remove click block from invisible elements */
-div[style*="opacity: 0"] {
-  pointer-events: none !important;
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
 }
+
+.reveal-left.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal-right {
+  opacity: 0;
+  transform: translateX(40px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Stagger children */
+.stagger-child:nth-child(1) { transition-delay: 0s; }
+.stagger-child:nth-child(2) { transition-delay: 0.1s; }
+.stagger-child:nth-child(3) { transition-delay: 0.2s; }
+.stagger-child:nth-child(4) { transition-delay: 0.3s; }
+
+/* ================= FADE IN ================= */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes zoomIn {
+  from { transform: scale(1.08); }
+  to   { transform: scale(1); }
+}
+
+@keyframes scrollChevron {
+  0%, 100% { transform: translateY(0); opacity: 0.6; }
+  50%       { transform: translateY(8px); opacity: 1; }
+}
+
+.fade-in {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* ================= SCROLLING / BASE ================= */
 
 /* ================= RESPONSIVE ================= */
 @media (max-width: 768px) {
-  html {
-    font-size: 14px;
-  }
+  html { font-size: 14px; }
+  :root { --section-padding: 64px 0; }
+}
+
+/* ================= CAROUSEL (clients) ================= */
+@keyframes scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.carousel-container {
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.carousel-track {
+  display: inline-flex;
+  gap: 30px;
+  animation: scroll 20s linear infinite;
+}
+
+.carousel-track:hover {
+  animation-play-state: paused;
+}
+
+/* ================= SECTION FADE (on-load) ================= */
+@keyframes fadeInSlideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-on-load {
+  animation: fadeInSlideUp 0.8s ease-out forwards;
+}
+
+/* ================= STAR RATINGS ================= */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  color: var(--color-dark);
+  line-height: 1.25;
+  overflow: visible;
+  padding-bottom: 4px;
+}
+
+.stars {
+  color: var(--color-gold);
+  font-size: 1rem;
+  letter-spacing: 2px;
+}
+
+/* ================= PAGE HEADERS ================= */
+.page-header {
+  background-color: var(--color-dark);
+  background-image: linear-gradient(to bottom, var(--color-dark), #300008);
+  color: #ffffff;
+  padding: 160px 0 80px; /* Increased top padding to clear fixed navbar */
+  text-align: center;
+  position: relative;
+  overflow: visible; /* Ensure Cormorant Garamond ascenders aren't clipped */
+  z-index: 10;
+}
+
+.page-header h1 {
+  color: #ffffff;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  margin-bottom: 8px;
+  line-height: 1.2; /* Extra space for Cormorant ascenders */
+}
+
+/* ================= GLASS CARD (PREMIUM) ================= */
+.glass-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(201, 169, 110, 0.15);
+  border-radius: var(--radius-card);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.glass-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.05),
+    transparent
+  );
+  transition: 0.5s;
+}
+
+.glass-card:hover {
+  transform: translateY(-10px);
+  border-color: var(--color-gold);
+  box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.glass-card:hover::before {
+  left: 100%;
 }

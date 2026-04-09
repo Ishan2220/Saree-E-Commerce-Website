@@ -178,7 +178,7 @@ const styles = {
     padding: "12px",
     backgroundColor: "var(--color-primary)",
     border: "none",
-    color: "var(--color-dark)",
+    color: "#ffffff",
     borderRadius: "6px",
     cursor: "pointer",
     fontWeight: "bold",

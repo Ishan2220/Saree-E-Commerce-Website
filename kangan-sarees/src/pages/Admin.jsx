@@ -79,7 +79,7 @@ const Admin = () => {
         <div className="container">
           <h1 style={styles.title}>Catalog management</h1>
           <p style={styles.subtitle}>
-            Krishna Kangan Sarees — products sync to the storefront catalog
+            Kangan Sarees — products sync to the storefront catalog
             (no pricing; enquiry-led).
           </p>
         </div>
@@ -208,12 +208,12 @@ const styles = {
   header: {
     backgroundColor: "var(--color-dark)",
     color: "var(--color-secondary)",
-    padding: "60px 0",
+    padding: "160px 0 80px",
     textAlign: "center",
     marginBottom: "40px",
   },
   title: {
-    color: "var(--color-primary)",
+    color: "#ffffff",
     fontSize: "2.5rem",
     marginBottom: "10px",
     fontFamily: "var(--font-heading)",
@@ -256,7 +256,7 @@ const styles = {
   },
   addBtn: {
     backgroundColor: "var(--color-primary)",
-    color: "var(--color-dark)",
+    color: "#ffffff",
     border: "none",
     padding: "12px 24px",
     borderRadius: "8px",

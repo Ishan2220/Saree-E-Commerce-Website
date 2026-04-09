@@ -1,10 +1,15 @@
+import useScrollReveal from '../hooks/useScrollReveal';
+
 const Contact = () => {
+  useScrollReveal();
   return (
     <div className="fade-in">
-      <div style={styles.header}>
-        <div className="container" style={styles.headerContent}>
-          <h1 style={styles.title}>Contact Us</h1>
-          <p style={styles.subtitle}>We would love to hear from you. Reach out or visit our store.</p>
+      <div className="page-header">
+        <div className="container">
+          <h1>Contact Us</h1>
+          <p style={{ color: "rgba(255,255,255,0.8)", fontSize: "1.1rem" }}>
+            We would love to hear from you. Reach out or visit our store.
+          </p>
         </div>
       </div>
 
@@ -12,27 +17,28 @@ const Contact = () => {
         
         {/* Contact Info Row */}
         <div style={styles.contactDetails}>
-           <div style={styles.infoCard}>
+           <div style={styles.infoCard} className="reveal stagger-child">
              <h3 style={styles.infoTitle}>Call Us</h3>
-             <p style={styles.infoText}>+91 9011193300</p>
+             <p style={styles.infoText}>+91 9371212625 <br /> +91 9011193300</p>
            </div>
-           <div style={styles.infoCard}>
+           <div style={styles.infoCard} className="reveal stagger-child">
              <h3 style={styles.infoTitle}>Email Us</h3>
-             <p style={styles.infoText}>kangansarees2000@gmail.com</p>
+             <p style={styles.infoText}>kangansarees369369@gmail.com</p>
            </div>
-           <div style={styles.infoCard}>
+           <div style={styles.infoCard} className="reveal stagger-child">
              <h3 style={styles.infoTitle}>Corporate & Bulk</h3>
              <p style={styles.infoText}>Uniforms & Dress Codes Available</p>
            </div>
-           <div style={styles.infoCard}>
+           <div style={styles.infoCard} className="reveal stagger-child">
              <h3 style={styles.infoTitle}>Two Showrooms</h3>
-             <p style={styles.infoText}>Including 20,000 sq ft Flagship</p>
+             <p style={styles.infoText}>Including 25,000 sq ft Flagship</p>
            </div>
         </div>
 
         {/* Google Maps Section */}
-        <div style={styles.mapSection}>
+        <div style={styles.mapSection} className="reveal">
           <h2 style={styles.sectionTitle}>Visit Our Store</h2>
+          <div className="gold-divider center" />
           
           <div className="map-wrapper" style={styles.mapWrapper}>
             <iframe 
@@ -49,7 +55,7 @@ const Contact = () => {
 
           <div style={styles.addressBlock}>
             <p style={styles.addressText}>
-               <strong>Krishna Kangan Sarees Flagship</strong><br/>
+               <strong>Kangan Sarees Flagship</strong><br/>
                Gandhinagar, Kolhapur,<br/>
                Maharashtra, India
             </p>
@@ -89,88 +95,68 @@ const Contact = () => {
 };
 
 const styles = {
-  header: {
-    backgroundColor: "var(--color-dark)",
-    color: "var(--color-secondary)",
-    padding: "80px 0",
-    textAlign: "center",
-  },
-  headerContent: {
-    maxWidth: "800px",
-    margin: "0 auto",
-  },
-  title: {
-    color: "var(--color-primary)",
-    fontSize: "3rem",
-    marginBottom: "15px",
-  },
-  subtitle: {
-    fontSize: "1.1rem",
-    opacity: 0.8,
-  },
-  pageContent: {
-    padding: "80px 20px",
-    maxWidth: "1000px",
-    margin: "0 auto",
+  contactWrapper: {
+    padding: "80px 24px 100px",
   },
   contactDetails: {
     display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+    gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
     gap: "30px",
-    marginBottom: "80px",
+    marginBottom: "100px",
   },
   infoCard: {
-    padding: "30px",
+    padding: "40px 30px",
     backgroundColor: "#fff",
-    borderRadius: "12px",
-    boxShadow: "0 6px 20px rgba(0,0,0,0.04)",
-    border: "1px solid rgba(212, 163, 115, 0.15)",
+    borderRadius: "16px",
+    boxShadow: "0 10px 40px rgba(0,0,0,0.03)",
+    border: "1px solid rgba(212, 163, 115, 0.1)",
     textAlign: "center",
   },
   infoTitle: {
     color: "var(--color-primary)",
-    fontSize: "1.3rem",
-    marginBottom: "10px",
+    fontSize: "1.4rem",
+    marginBottom: "12px",
     textTransform: "uppercase",
-    letterSpacing: "1px",
+    letterSpacing: "1.5px",
+    fontWeight: "600",
   },
   infoText: {
     color: "var(--color-text-main)",
-    fontSize: "1.05rem",
+    fontSize: "1.1rem",
     fontWeight: "500",
     wordBreak: "break-word",
-    overflowWrap: "break-word",
   },
   mapSection: {
     display: "flex",
     flexDirection: "column",
-    gap: "30px",
+    gap: "0px",
   },
   sectionTitle: {
-    fontSize: "2.2rem",
+    fontSize: "2.8rem",
     color: "var(--color-dark)",
     textAlign: "center",
+    marginBottom: "10px",
   },
   mapWrapper: {
     width: "100%",
-    borderRadius: "16px",
+    borderRadius: "20px",
     overflow: "hidden",
-    boxShadow: "0 10px 40px rgba(58, 47, 40, 0.15)",
-    border: "2px solid rgba(212, 163, 115, 0.3)",
-    transition: "transform 0.4s ease, box-shadow 0.4s ease",
+    boxShadow: "0 20px 60px rgba(74, 0, 17, 0.12)",
+    border: "1px solid rgba(212, 163, 115, 0.2)",
+    marginTop: "40px",
   },
   addressBlock: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     textAlign: "center",
-    gap: "20px",
-    marginTop: "10px",
+    gap: "24px",
+    marginTop: "40px",
   },
   addressText: {
     fontSize: "1.2rem",
     color: "var(--color-text-main)",
-    lineHeight: "1.7",
+    lineHeight: "1.8",
   },
   directionsBtn: {
     display: "inline-block",

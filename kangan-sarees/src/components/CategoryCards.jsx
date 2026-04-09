@@ -13,7 +13,7 @@ const CategoryCards = ({ categories, selectedName, onSelect }) => {
       <div className="lux-category-intro">
         <h2 className="lux-category-title">Shop by category</h2>
         <p className="lux-category-lede">
-          Explore our collections — each curated with the Krishna Kangan touch
+          Explore our collections — each curated with the Kangan Sarees touch
         </p>
 
         {selectedName && (
@@ -86,14 +86,20 @@ const CategoryCards = ({ categories, selectedName, onSelect }) => {
 
         .lux-category-title {
           font-family: var(--font-heading);
-          font-size: 2.2rem;
+          font-size: 2.5rem;
           color: var(--color-dark);
-          margin-bottom: 10px;
+          margin-bottom: 12px;
+          font-weight: 800;
         }
 
         .lux-category-lede {
-          color: var(--color-text-muted);
+          color: var(--color-dark);
+          opacity: 0.8;
+          font-size: 1.1rem;
           margin-bottom: 15px;
+          max-width: 600px;
+          margin-left: auto;
+          margin-right: auto;
         }
 
         .lux-category-back {

@@ -1,66 +1,131 @@
-import products from "../data/products";
-import ProductCard from "../components/ProductCard";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { loadCatalogFromStorage } from "../utils/catalogStorage";
+import ProductCard from "../components/ProductCard";
+import ClientCarousel from "../components/ClientCarousel";
+import FeaturedBanner from "../components/FeaturedBanner";
+import BrandStory from "../components/BrandStory";
+import Testimonials from "../components/Testimonials";
+import useScrollReveal from "../hooks/useScrollReveal";
 
 const Home = () => {
+  const [productsData, setProductsData] = useState([]);
+  
+  // Use the new scroll reveal hook
+  useScrollReveal();
+
+  useEffect(() => {
+    // Load dynamic data to ensure best sellers show up
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setProductsData(loadCatalogFromStorage());
+  }, []);
+
+  // Filter bestsellers from dynamic data
+  const featuredOnHome = productsData.filter(p => p.isTopSelling).slice(0, 4);
+
   return (
     <div className="fade-in">
-      {/* Hero Section */}
+      {/* 1. Hero Section */}
       <section style={styles.hero}>
         <div style={styles.heroOverlay}>
           <div className="container" style={styles.heroContent}>
-            <h1 className="heroTitle" style={styles.heroTitle}>25 Years of Trust.</h1>
-            <p className="heroSubtitle" style={styles.heroSubtitle}>Welcome to Krishna Kangan Sarees — Kolhapur&apos;s trusted destination for premium sarees and apparel. Unmatched variety and timeless craftsmanship.</p>
-            <div className="actionGroup" style={styles.actionGroup}>
-               <Link to="/products" className="btn-primary" style={styles.heroBtn}>View Collection</Link>
-               <Link to="/contact" className="btn-secondary" style={styles.heroBtnOutline}>Visit Store</Link>
+            <span className="section-label" style={{ color: "var(--color-gold-light)" }}>Established 2000</span>
+            <h1 style={styles.heroTitle}>Elegance in Every Drape.</h1>
+            <p style={styles.heroSubtitle}>
+              Experience Kolhapur&apos;s most trusted destination for premium sarees,
+              traditional craftsmanship, and timeless ethnic fashion.
+            </p>
+            <div style={styles.actionGroup}>
+              <Link to="/products" className="btn-primary">Explore Collection</Link>
+              <Link to="/contact" className="btn-outline-white">Visit Showroom</Link>
             </div>
           </div>
         </div>
+        <div style={styles.scrollIndicator}>
+          <div style={styles.scrollChevron}></div>
+        </div>
       </section>
 
-      {/* Featured Products */}
-      <section className="container" style={styles.featuredSection}>
-        <div style={styles.sectionHeader}>
-          <h2 style={styles.sectionTitle}>Curated For You</h2>
-          <p style={styles.sectionSubtitle}>Handpicked masterpieces from our showroom</p>
-          <div style={styles.divider}></div>
+      {/* 2. Featured Collections Slider (EDITORAL) */}
+      <FeaturedBanner />
+
+      {/* 3. Luxury Featured Products Grid (BEST SELLERS) */}
+      <section className="container" style={styles.sectionPadding}>
+        <div style={styles.sectionHeader} className="reveal">
+          <span className="section-label">Curated Selection</span>
+          <h2 className="section-title-lg">Bestsellers of the Season</h2>
+          <div className="gold-divider center" />
         </div>
-        <div style={styles.grid}>
-          {products.slice(0, 3).map((p) => (
-            <ProductCard key={p.id} product={p} />
-          ))}
-        </div>
+        
+        {featuredOnHome.length > 0 ? (
+          <div style={styles.grid}>
+            {featuredOnHome.map((p) => (
+              <div key={p.id} className="reveal stagger-child">
+                <ProductCard product={p} />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p style={{ textAlign: 'center', opacity: 0.6, fontSize: '0.9rem' }}>Discover our premium handpicked essentials.</p>
+        )}
+
         <div style={styles.viewAllContainer}>
-           <Link to="/products" style={styles.viewAllLink}>View Full Collection &rarr;</Link>
+          <Link to="/products" className="btn-outline-gold">View Full Collection</Link>
         </div>
       </section>
 
-      {/* Why Choose Us */}
-      <section style={styles.featuresWrapper}>
+      {/* 4. Brand Story Section */}
+      <BrandStory />
+
+      {/* 5. Why Choose Us (Redesigned with Premium Glassmorphism) */}
+      <section style={styles.whyUsSection}>
         <div className="container">
-          <div style={styles.sectionHeader}>
-            <h2 style={{...styles.sectionTitle, color: "var(--color-primary)"}}>Why Choose Us?</h2>
-            <div style={{...styles.divider, backgroundColor: "var(--color-secondary)"}}></div>
+          <div style={styles.sectionHeader} className="reveal">
+            <span className="section-label" style={{ color: "rgba(255,255,255,0.7)" }}>The Kangan Promise</span>
+            <h2 className="section-title-lg light">Unmatched Shopping Experience</h2>
+            <div className="gold-divider center" style={{ background: "var(--color-gold)" }} />
           </div>
+
           <div style={styles.featuresGrid}>
-            <div style={styles.featureBox}>
-              <h3 style={styles.featureTitle}>The 20,000 sq ft Flagship</h3>
-              <p style={styles.featureText}>Experience Kolhapur's largest and most premium air-conditioned shopping environment, built to provide unparalleled comfort.</p>
-            </div>
-            <div style={styles.featureBox}>
-              <h3 style={styles.featureTitle}>District's No.1 Variety</h3>
-              <p style={styles.featureText}>From pure bridal Paithanis to Raymond suiting and handloom fabrics, explore endless high-quality choices under one roof.</p>
-            </div>
-            <div style={styles.featureBox}>
-              <h3 style={styles.featureTitle}>25+ Years of Trust</h3>
-              <p style={styles.featureText}>Since 2000, our honest pricing and premium quality have earned the loyalty of families traveling from across 10+ districts.</p>
-            </div>
+            {[
+              {
+                title: "25,000 sq ft Showroom",
+                text: "Step into Kolhapur's largest fully air-conditioned retail space designed for luxury and comfort.",
+                icon: "🏛️"
+              },
+              {
+                title: "Exquisite Variety",
+                text: "From bridal Paithanis to designer gowns, explore 10,000+ handpicked pieces under one roof.",
+                icon: "✨"
+              },
+              {
+                title: "Generational Trust",
+                text: "Serving families across 10+ districts since 2000 with honesty, quality, and legacy.",
+                icon: "🤝"
+              }
+            ].map((f, i) => (
+              <div 
+                key={i} 
+                className="glass-card reveal stagger-child" 
+                style={styles.featureBox}
+              >
+                <div style={styles.featureIcon}>{f.icon}</div>
+                <h3 style={styles.featureTitle}>{f.title}</h3>
+                <p style={styles.featureText}>{f.text}</p>
+                <div style={styles.cardAccent}></div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
+
+      {/* 6. Testimonials Section */}
+      <Testimonials />
+
+      {/* 7. Client Carousel */}
+      <ClientCarousel />
       
-      <style>{injectGlobalBtns}</style>
+      <style>{injectStyles}</style>
     </div>
   );
 };
@@ -70,141 +135,136 @@ const styles = {
     backgroundImage: `url('/images/kk-hero.png')`,
     backgroundSize: "cover",
     backgroundPosition: "center",
-    minHeight: "85vh",
+    height: "100vh",
     position: "relative",
+    display: "flex",
+    alignItems: "center",
+    marginTop: "-69px", // Offset for fixed navbar
+    backgroundAttachment: "fixed",
   },
   heroOverlay: {
     position: "absolute",
-    top: 0, left: 0, right: 0, bottom: 0,
-    backgroundColor: "rgba(58, 47, 40, 0.4)", // Dark brown overlay preserved perfectly
+    inset: 0,
+    background: "linear-gradient(to bottom, rgba(74, 0, 17, 0.45) 0%, rgba(74, 0, 17, 0.25) 50%, rgba(74, 0, 17, 0.6) 100%)",
     display: "flex",
     alignItems: "center",
+    paddingTop: "60px",
   },
   heroContent: {
-    color: "var(--color-secondary)",
-    maxWidth: "700px",
+    color: "#ffffff",
+    maxWidth: "800px",
+    zIndex: 1,
   },
   heroTitle: {
-    color: "var(--color-secondary)",
-    fontSize: "4rem",
-    lineHeight: "1.1",
-    marginBottom: "20px",
+    color: "#ffffff",
+    fontSize: "clamp(3rem, 7vw, 5.5rem)",
+    lineHeight: "1",
+    marginBottom: "24px",
+    fontFamily: "var(--font-heading)",
+    fontWeight: "700",
+    textShadow: "0 10px 30px rgba(0,0,0,0.3)",
   },
   heroSubtitle: {
-    fontSize: "1.3rem",
-    marginBottom: "40px",
-    opacity: 0.9,
+    fontSize: "clamp(1.1rem, 2vw, 1.4rem)",
+    marginBottom: "48px",
+    color: "rgba(255, 255, 255, 0.95)",
     fontFamily: "var(--font-body)",
+    fontWeight: "400",
+    lineHeight: "1.6",
+    maxWidth: "600px",
   },
   actionGroup: {
     display: "flex",
-    gap: "15px",
+    gap: "20px",
     flexWrap: "wrap",
   },
-  heroBtn: {
-    display: "inline-block",
+  scrollIndicator: {
+    position: "absolute",
+    bottom: "40px",
+    left: "50%",
+    transform: "translateX(-50%)",
+    zIndex: 10,
   },
-  heroBtnOutline: {
-    display: "inline-block",
-    padding: "12px 30px",
-    border: "2px solid var(--color-primary)",
-    color: "var(--color-secondary)",
-    textTransform: "uppercase",
-    letterSpacing: "1px",
-    borderRadius: "4px",
-    transition: "var(--transition-smooth)",
-    fontWeight: "500",
+  scrollChevron: {
+    width: "30px",
+    height: "30px",
+    borderBottom: "2px solid rgba(255,255,255,0.8)",
+    borderRight: "2px solid rgba(255,255,255,0.8)",
+    transform: "rotate(45deg)",
+    animation: "scrollChevron 2s infinite",
   },
-  featuredSection: {
-    padding: "100px 20px",
+  sectionPadding: {
+    padding: "var(--section-padding)",
   },
-  featuresWrapper: {
+  whyUsSection: {
     backgroundColor: "var(--color-dark)",
-    padding: "100px 20px",
-    color: "var(--color-secondary)",
+    backgroundImage: "linear-gradient(to bottom, var(--color-dark), #300008)",
+    padding: "var(--section-padding)",
+    color: "#ffffff",
+    position: "relative",
+    overflow: "hidden",
   },
   sectionHeader: {
     textAlign: "center",
-    marginBottom: "60px",
-  },
-  sectionTitle: {
-    fontSize: "2.5rem",
-    marginBottom: "10px",
-  },
-  sectionSubtitle: {
-    color: "var(--color-text-muted)",
-    fontSize: "1.1rem",
-    marginBottom: "20px",
-  },
-  divider: {
-    width: "60px",
-    height: "2px",
-    backgroundColor: "var(--color-primary)",
-    margin: "0 auto",
+    marginBottom: "64px",
   },
   grid: {
     display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-    gap: "40px",
+    gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+    gap: "32px",
   },
   viewAllContainer: {
     textAlign: "center",
-    marginTop: "60px",
-  },
-  viewAllLink: {
-    color: "var(--color-dark)",
-    textTransform: "uppercase",
-    letterSpacing: "2px",
-    fontSize: "0.9rem",
-    fontWeight: "600",
-    borderBottom: "1px solid var(--color-dark)",
-    paddingBottom: "5px",
-    transition: "var(--transition-smooth)",
+    marginTop: "64px",
   },
   featuresGrid: {
     display: "grid",
     gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
     gap: "40px",
-    textAlign: "center",
   },
   featureBox: {
-    padding: "30px",
-    border: "1px solid rgba(212, 163, 115, 0.2)",
-    borderRadius: "8px",
-    backgroundColor: "rgba(255,255,255,0.02)",
+    padding: "60px 40px",
+    textAlign: "center",
+  },
+  featureIcon: {
+    fontSize: "3.5rem",
+    marginBottom: "30px",
+    display: "block",
+    filter: "drop-shadow(0 4px 10px rgba(0,0,0,0.3))",
   },
   featureTitle: {
-    color: "var(--color-primary)",
-    fontSize: "1.4rem",
-    marginBottom: "15px",
+    color: "var(--color-gold)",
+    fontSize: "1.75rem",
+    marginBottom: "20px",
+    fontWeight: "700",
+    fontFamily: "var(--font-heading)",
+    letterSpacing: "0.02em",
   },
   featureText: {
-    opacity: 0.8,
-    lineHeight: "1.7",
+    color: "rgba(255,255,255,0.8)",
+    lineHeight: "1.9",
+    fontSize: "1rem",
+    fontWeight: "300",
+  },
+  cardAccent: {
+    position: "absolute",
+    bottom: 0,
+    left: "50%",
+    transform: "translateX(-50%)",
+    width: "40px",
+    height: "2px",
+    backgroundColor: "var(--color-gold)",
+    opacity: 0.5,
   }
 };
 
-const injectGlobalBtns = `
-.btn-secondary:hover {
-  background-color: var(--color-primary);
-  color: #fff !important;
-}
-@media (max-width: 768px) {
-  .heroTitle {
-    font-size: 2.5rem !important;
+const injectStyles = `
+  @media (max-width: 768px) {
+    .heroTitle { font-size: 3rem !important; }
+    .actionGroup { width: 100%; }
+    .actionGroup a { width: 100%; text-align: center; }
   }
-  .heroSubtitle {
-    font-size: 1.1rem !important;
-  }
-  .actionGroup {
-    flex-direction: column;
-    width: 100%;
-  }
-  .actionGroup a {
-    text-align: center;
-    width: 100%;
-  }
-}
+  .glass-card:hover .featureIcon { transform: scale(1.1) rotate(5deg); transition: transform 0.4s ease; }
 `;
 
 export default Home;

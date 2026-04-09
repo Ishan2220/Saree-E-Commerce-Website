@@ -11,7 +11,7 @@ const SEED_VERSION_KEY = "kangan_catalog_seed_version";
  * If the saved version is older, the app clears the old saved catalog and replaces it
  * with bundled defaults (new image paths from /public/images/).
  */
-export const CATALOG_SEED_VERSION = 8;
+export const CATALOG_SEED_VERSION = 14;
 
 export function loadCatalogFromStorage() {
   const storedVersion = localStorage.getItem(SEED_VERSION_KEY);
