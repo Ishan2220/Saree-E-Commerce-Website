@@ -20,6 +20,7 @@ const AdminForm = ({ initialData, onSave, onCancel }) => {
   });
 
   const [error, setError] = useState("");
+  const [uploadingImage, setUploadingImage] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -31,14 +32,57 @@ const AdminForm = ({ initialData, onSave, onCancel }) => {
     setFormData((prev) => ({ ...prev, [name]: checked }));
   };
 
-  const handleImageUpload = (e) => {
+  const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     if (file) {
+      setUploadingImage(true);
+      setError("");
+
       const reader = new FileReader();
-      reader.onloadend = () => {
-        setFormData((prev) => ({ ...prev, image: reader.result }));
-      };
       reader.readAsDataURL(file);
+      reader.onload = (event) => {
+        const img = new Image();
+        img.src = event.target.result;
+        img.onload = () => {
+          // Calculate max dimensions (800px max width/height to stay safely under Firestore 1MB limits)
+          const MAX_SIZE = 800;
+          let width = img.width;
+          let height = img.height;
+
+          if (width > height) {
+            if (width > MAX_SIZE) {
+              height *= MAX_SIZE / width;
+              width = MAX_SIZE;
+            }
+          } else {
+            if (height > MAX_SIZE) {
+              width *= MAX_SIZE / height;
+              height = MAX_SIZE;
+            }
+          }
+
+          const canvas = document.createElement("canvas");
+          canvas.width = width;
+          canvas.height = height;
+
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0, width, height);
+
+          // Compress to JPEG with 0.8 quality
+          const compressedDataUrl = canvas.toDataURL("image/jpeg", 0.8);
+          
+          setFormData((prev) => ({ ...prev, image: compressedDataUrl }));
+          setUploadingImage(false);
+        };
+        img.onerror = () => {
+          setError("Failed to process image.");
+          setUploadingImage(false);
+        };
+      };
+      reader.onerror = () => {
+        setError("Error reading the image file.");
+        setUploadingImage(false);
+      };
     }
   };
 
@@ -160,11 +204,11 @@ const AdminForm = ({ initialData, onSave, onCancel }) => {
         )}
 
         <div style={styles.btnGroup}>
-          <button type="button" onClick={onCancel} style={styles.cancelBtn}>
+          <button type="button" onClick={onCancel} style={styles.cancelBtn} disabled={uploadingImage}>
             Cancel
           </button>
-          <button type="submit" style={styles.submitBtn}>
-            Save product
+          <button type="submit" style={{...styles.submitBtn, opacity: uploadingImage ? 0.7 : 1}} disabled={uploadingImage}>
+            {uploadingImage ? "Uploading Image..." : "Save product"}
           </button>
         </div>
       </form>

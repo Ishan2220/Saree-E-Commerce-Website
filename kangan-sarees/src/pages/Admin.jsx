@@ -1,26 +1,26 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { doc, setDoc, deleteDoc } from "firebase/firestore";
+import { db } from "../lib/firebase";
 import AdminForm from "../components/AdminForm";
 import {
-  CATALOG_STORAGE_KEY,
-  loadCatalogFromStorage,
-  notifyCatalogUpdated,
+  subscribeToCatalog,
   resetCatalogToDefaults,
 } from "../utils/catalogStorage";
 import { normalizeProduct } from "../utils/productModel";
 
 const Admin = () => {
-  const [products, setProducts] = useState(loadCatalogFromStorage);
+  const [products, setProducts] = useState([]);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
+  const [loadingAction, setLoadingAction] = useState(false);
 
-  const saveToLocalStorage = (updatedProducts) => {
-    localStorage.setItem(CATALOG_STORAGE_KEY, JSON.stringify(updatedProducts));
-    setProducts(updatedProducts);
-    notifyCatalogUpdated();
-  };
+  useEffect(() => {
+    const unsub = subscribeToCatalog(setProducts);
+    return () => unsub();
+  }, []);
 
-  const handleResetToDefaults = () => {
+  const handleResetToDefaults = async () => {
     if (
       !window.confirm(
         "Replace the entire catalog with the default list from the app? Any products you added or edited in the browser will be lost."
@@ -28,9 +28,9 @@ const Admin = () => {
     ) {
       return;
     }
-    const fresh = resetCatalogToDefaults();
-    setProducts(fresh);
-    notifyCatalogUpdated();
+    setLoadingAction(true);
+    await resetCatalogToDefaults();
+    setLoadingAction(false);
     showSuccess("Catalog reset to defaults. Collection page updated.");
   };
 
@@ -44,28 +44,36 @@ const Admin = () => {
     setIsFormVisible(true);
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this product?")) {
-      const updated = products.filter((p) => p.id !== id);
-      saveToLocalStorage(updated);
-      showSuccess("Product deleted successfully!");
+      setLoadingAction(true);
+      try {
+        await deleteDoc(doc(db, "products", String(id)));
+        showSuccess("Product deleted successfully!");
+      } catch (err) {
+        console.error("Delete failed", err);
+      }
+      setLoadingAction(false);
     }
   };
 
-  const handleSaveForm = (raw) => {
+  const handleSaveForm = async (raw) => {
     const product = normalizeProduct(raw);
     if (!product) return;
 
-    let updated;
-    if (editingProduct) {
-      updated = products.map((p) => (p.id === editingProduct.id ? product : p));
-      showSuccess("Product updated successfully!");
-    } else {
-      updated = [product, ...products];
-      showSuccess("New product added successfully!");
+    setLoadingAction(true);
+    try {
+      await setDoc(doc(db, "products", String(product.id)), product);
+      if (editingProduct) {
+        showSuccess("Product updated successfully!");
+      } else {
+        showSuccess("New product added successfully!");
+      }
+      setIsFormVisible(false);
+    } catch (err) {
+      console.error("Save failed", err);
     }
-    saveToLocalStorage(updated);
-    setIsFormVisible(false);
+    setLoadingAction(false);
   };
 
   const showSuccess = (msg) => {

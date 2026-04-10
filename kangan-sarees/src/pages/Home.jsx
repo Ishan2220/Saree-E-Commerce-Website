@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { loadCatalogFromStorage } from "../utils/catalogStorage";
+import { subscribeToCatalog } from "../utils/catalogStorage";
 import ProductCard from "../components/ProductCard";
 import ClientCarousel from "../components/ClientCarousel";
 import FeaturedBanner from "../components/FeaturedBanner";
@@ -15,9 +15,9 @@ const Home = () => {
   useScrollReveal();
 
   useEffect(() => {
-    // Load dynamic data to ensure best sellers show up
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setProductsData(loadCatalogFromStorage());
+    // Subscribe to dynamic data to ensure best sellers show up from Firebase
+    const unsubscribe = subscribeToCatalog(setProductsData);
+    return () => unsubscribe();
   }, []);
 
   // Filter bestsellers from dynamic data

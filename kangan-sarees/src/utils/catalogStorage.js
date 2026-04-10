@@ -1,53 +1,70 @@
+import { collection, getDocs, doc, setDoc, writeBatch, onSnapshot } from "firebase/firestore";
+import { db } from "../lib/firebase";
 import defaultProductsData from "../data/products";
 import { normalizeProductsArray } from "./productModel";
-
-/** Stored JSON array of products */
-export const CATALOG_STORAGE_KEY = "kangan_products";
-
-const SEED_VERSION_KEY = "kangan_catalog_seed_version";
-
-/**
- * Bump this number whenever `products.js` default catalog changes (images, items).
- * If the saved version is older, the app clears the old saved catalog and replaces it
- * with bundled defaults (new image paths from /public/images/).
- */
-export const CATALOG_SEED_VERSION = 14;
-
-export function loadCatalogFromStorage() {
-  const storedVersion = localStorage.getItem(SEED_VERSION_KEY);
-  const saved = localStorage.getItem(CATALOG_STORAGE_KEY);
-
-  let result = defaultProductsData;
-
-  const versionMatches = storedVersion === String(CATALOG_SEED_VERSION);
-
-  if (versionMatches && saved) {
-    try {
-      result = normalizeProductsArray(JSON.parse(saved), defaultProductsData);
-    } catch {
-      localStorage.removeItem(CATALOG_STORAGE_KEY);
-      result = defaultProductsData;
-    }
-  } else {
-    // First visit, or seed updated in code — use bundled defaults
-    result = defaultProductsData;
-    localStorage.setItem(SEED_VERSION_KEY, String(CATALOG_SEED_VERSION));
-  }
-
-  localStorage.setItem(CATALOG_STORAGE_KEY, JSON.stringify(result));
-  return result;
-}
-
-/** Replace saved catalog with `products.js` defaults (admin tool). */
-export function resetCatalogToDefaults() {
-  localStorage.setItem(SEED_VERSION_KEY, String(CATALOG_SEED_VERSION));
-  const copy = defaultProductsData.map((p) => ({ ...p }));
-  localStorage.setItem(CATALOG_STORAGE_KEY, JSON.stringify(copy));
-  return copy;
-}
 
 export const CATALOG_UPDATED_EVENT = "kangan-catalog-updated";
 
 export function notifyCatalogUpdated() {
   window.dispatchEvent(new Event(CATALOG_UPDATED_EVENT));
+}
+
+// Fetch once for initial state
+export async function loadCatalogFromStorage() {
+  try {
+    const q = collection(db, "products");
+    const snapshot = await getDocs(q);
+    let result = [];
+    snapshot.forEach((docSnap) => {
+      result.push(docSnap.data());
+    });
+    
+    // Sort logic (assuming descending by ID so newest is top, similar to local storage ordering)
+    result.sort((a, b) => b.id - a.id);
+
+    if (result.length === 0) {
+      return defaultProductsData;
+    }
+    return normalizeProductsArray(result, defaultProductsData);
+  } catch (err) {
+    console.error("Firebase fetch error, falling back to bundled data:", err);
+    return defaultProductsData;
+  }
+}
+
+// Subscribe to real-time updates for the storefront
+export function subscribeToCatalog(callback) {
+  const q = collection(db, "products");
+  return onSnapshot(q, (snapshot) => {
+    let result = [];
+    snapshot.forEach((docSnap) => {
+      result.push(docSnap.data());
+    });
+    
+    result.sort((a, b) => b.id - a.id);
+
+    if (result.length === 0) {
+      result = defaultProductsData;
+    }
+    
+    callback(normalizeProductsArray(result, defaultProductsData));
+  }, (error) => {
+    console.error("Firestore Listen Error:", error);
+  });
+}
+
+// Admin seed catalog
+export async function resetCatalogToDefaults() {
+  const copy = defaultProductsData.map((p) => ({ ...p }));
+  try {
+    const batch = writeBatch(db);
+    copy.forEach(p => {
+      const ref = doc(db, "products", String(p.id));
+      batch.set(ref, p);
+    });
+    await batch.commit();
+  } catch (err) {
+    console.error("Batch write failed", err);
+  }
+  return copy;
 }

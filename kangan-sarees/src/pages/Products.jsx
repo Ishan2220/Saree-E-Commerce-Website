@@ -2,10 +2,7 @@ import { useEffect, useMemo, useState, useRef } from "react";
 
 import CategoryScrollRow from "../components/CategoryScrollRow";
 import useScrollReveal from '../hooks/useScrollReveal';
-import {
-  CATALOG_UPDATED_EVENT,
-  loadCatalogFromStorage,
-} from "../utils/catalogStorage";
+import { subscribeToCatalog } from "../utils/catalogStorage";
 
 // Fixed display order for categories
 const CATEGORY_ORDER = [
@@ -17,16 +14,15 @@ const CATEGORY_ORDER = [
 ];
 
 const Products = () => {
-  const [productsData, setProductsData] = useState(loadCatalogFromStorage);
+  const [productsData, setProductsData] = useState([]);
   const [expandedCategory, setExpandedCategory] = useState(null);
   const expandedRef = useRef(null);
 
   useScrollReveal();
 
   useEffect(() => {
-    const sync = () => setProductsData(loadCatalogFromStorage());
-    window.addEventListener(CATALOG_UPDATED_EVENT, sync);
-    return () => window.removeEventListener(CATALOG_UPDATED_EVENT, sync);
+    const unsubscribe = subscribeToCatalog(setProductsData);
+    return () => unsubscribe();
   }, []);
 
   // Group products by category
