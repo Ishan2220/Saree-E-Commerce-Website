@@ -366,3 +366,13 @@ h1, h2, h3, h4, h5, h6 {
 .glass-card:hover::before {
   left: 100%;
 }
+
+/* ================= CRISP OVERRIDES ================= */
+/* Force hide the default Crisp circular widget so it doesn't overlap our flex container */
+.crisp-client [data-maximized="false"],
+.crisp-client [data-chat-status="closed"] {
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+}
