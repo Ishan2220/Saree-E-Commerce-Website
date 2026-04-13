@@ -3,11 +3,11 @@
 
 /* ================= ROOT VARIABLES ================= */
 :root {
-  --color-primary: #800020;
+  --color-primary: #5C4033;
   --color-secondary: #FFFFFF;
   --color-background: #FFD7BF;
   --color-bg-soft: #FFF0E8;
-  --color-dark: #4A0011;
+  --color-dark: #3E2723;
   --color-text-main: #2A1114;
   --color-text-muted: #6B5E55;
   --color-gold: #C9A96E;
@@ -20,8 +20,8 @@
   --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   --transition-slow: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
 
-  --shadow-card: 0 4px 24px rgba(74, 0, 17, 0.10);
-  --shadow-card-hover: 0 16px 48px rgba(74, 0, 17, 0.18);
+  --shadow-card: 0 4px 24px rgba(62, 39, 35, 0.10);
+  --shadow-card-hover: 0 16px 48px rgba(62, 39, 35, 0.18);
   --shadow-gold: 0 4px 24px rgba(201, 169, 110, 0.25);
 
   --radius-card: 16px;
@@ -139,7 +139,7 @@ button {
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 28px rgba(74,0,17,0.35);
+  box-shadow: 0 8px 28px rgba(62, 39, 35, 0.35);
   color: #fff;
 }
 
@@ -311,7 +311,7 @@ h1, h2, h3, h4, h5, h6 {
 /* ================= PAGE HEADERS ================= */
 .page-header {
   background-color: var(--color-dark);
-  background-image: linear-gradient(to bottom, var(--color-dark), #300008);
+  background-image: linear-gradient(to bottom, var(--color-dark), #261611);
   color: #ffffff;
   padding: 160px 0 80px; /* Increased top padding to clear fixed navbar */
   text-align: center;
