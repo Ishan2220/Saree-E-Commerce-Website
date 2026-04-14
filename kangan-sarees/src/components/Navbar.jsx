@@ -64,14 +64,34 @@ const Navbar = () => {
       <nav style={navStyle}>
         <style>{injectCSS}</style>
         <div className="container" style={styles.container}>
-          <div style={styles.logoContainer}>
+          {/* Logo Container */}
+          <div className="navbar-brand" style={styles.logoContainer}>
             <Link to="/" style={styles.logoLink} className="logo-fade-in">
               <img src="/logo.png" alt="Kangan Sarees Logo" className="navbar-logo" style={styles.logoImage} />
             </Link>
           </div>
-          
+
+          {/* Desktop Navigation Links */}
+          <div className="nav-links desktop-only" style={styles.links}>
+            <Link to="/" style={{ ...styles.link, ...(isActive("/") ? styles.activeLink : {}) }}>Home</Link>
+            <Link to="/about" style={{ ...styles.link, ...(isActive("/about") ? styles.activeLink : {}) }}>About</Link>
+            <Link to="/products" style={{ ...styles.link, ...(isActive("/products") ? styles.activeLink : {}) }}>Collection</Link>
+            <Link to="/contact" style={{ ...styles.link, ...(isActive("/contact") ? styles.activeLink : {}) }}>Showroom</Link>
+            {user?.role === "admin" && (
+              <Link to="/admin" style={{ ...styles.link, ...(isActive("/admin") ? styles.activeLink : {}) }}>Admin</Link>
+            )}
+            <div style={styles.authWrapper}>
+              {user ? (
+                <span onClick={handleLogout} style={styles.logoutBtn} role="button" tabIndex={0}>Logout</span>
+              ) : (
+                <Link to="/login" style={styles.loginBtn}>Login</Link>
+              )}
+            </div>
+          </div>
+
+          {/* Hamburger Icon */}
           <div 
-            className="hamburger-icon"
+            className="hamburger-icon mobile-only"
             style={styles.hamburger} 
             onClick={() => setIsOpen(!isOpen)}
           >
@@ -80,26 +100,24 @@ const Navbar = () => {
             <div style={{ ...styles.line, ...(isOpen ? styles.lineOpen3 : {}) }}></div>
           </div>
 
-          <div className={`nav-links ${isOpen ? "open" : ""}`} style={styles.links}>
-            <Link to="/" style={{ ...styles.link, ...(isActive("/") ? styles.activeLink : {}) }}>Home</Link>
-            <Link to="/about" style={{ ...styles.link, ...(isActive("/about") ? styles.activeLink : {}) }}>About</Link>
-            <Link to="/products" style={{ ...styles.link, ...(isActive("/products") ? styles.activeLink : {}) }}>Collection</Link>
-            <Link to="/contact" style={{ ...styles.link, ...(isActive("/contact") ? styles.activeLink : {}) }}>Showroom</Link>
-            {user?.role === "admin" && (
-              <Link to="/admin" style={{ ...styles.link, ...(isActive("/admin") ? styles.activeLink : {}) }}>Admin</Link>
-            )}
-            
-            <div style={styles.authWrapper}>
-              {user ? (
-                <>
-                  <span style={styles.greetingText}>Hi, {user.role === "admin" ? "Admin" : "Guest"}</span>
-                  <span onClick={handleLogout} style={styles.logoutBtn} role="button" tabIndex={0} onKeyDown={(e) => e.key === "Enter" && handleLogout()}>Logout</span>
-                </>
-              ) : (
-                <Link to="/login" style={styles.loginBtn}>Login</Link>
-              )}
+          {/* Mobile Overlay Menu */}
+          {isOpen && (
+            <div className="mobile-menu" style={styles.mobileMenu}>
+               <button style={styles.closeMenuBtn} onClick={() => setIsOpen(false)}>×</button>
+               <Link to="/">Home</Link>
+               <Link to="/about">About</Link>
+               <Link to="/products">Collection</Link>
+               <Link to="/contact">Showroom</Link>
+               {user?.role === "admin" && <Link to="/admin">Admin</Link>}
+               <div style={{ marginTop: '20px', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '20px' }}>
+                 {user ? (
+                   <span onClick={handleLogout} style={styles.logoutBtn}>Logout</span>
+                 ) : (
+                   <Link to="/login" style={styles.loginBtn}>Login</Link>
+                 )}
+               </div>
             </div>
-          </div>
+          )}
         </div>
       </nav>
     </>
@@ -129,20 +147,27 @@ const styles = {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
+    position: 'relative',
   },
   logoContainer: {
     display: "flex",
-    flexDirection: "column",
+    zIndex: 10,
   },
   logoLink: {
     display: 'flex', 
     alignItems: 'center',
   },
   logoImage: {
-    height: "65px",
+    height: "81px",
     width: "auto",
     objectFit: "contain",
     filter: "brightness(1) contrast(1.1)",
+    transition: 'height 0.3s ease',
+  },
+  links: {
+    display: "flex",
+    gap: "35px",
+    alignItems: "center",
   },
   hamburger: {
     display: "none",
@@ -150,6 +175,7 @@ const styles = {
     gap: "5px",
     cursor: "pointer",
     padding: "10px",
+    zIndex: 100,
   },
   line: {
     width: "25px",
@@ -160,11 +186,6 @@ const styles = {
   lineOpen1: { transform: "rotate(45deg) translate(5px, 5px)" },
   lineOpen2: { opacity: 0 },
   lineOpen3: { transform: "rotate(-45deg) translate(5px, -5px)" },
-  links: {
-    display: "flex",
-    gap: "35px",
-    alignItems: "center",
-  },
   link: {
     fontSize: "0.85rem",
     textTransform: "uppercase",
@@ -185,12 +206,6 @@ const styles = {
     marginLeft: "10px",
     paddingLeft: "25px",
     borderLeft: "1px solid rgba(201, 169, 110, 0.3)",
-  },
-  greetingText: {
-    fontSize: "0.75rem",
-    color: "var(--color-gold)",
-    fontWeight: "600",
-    textTransform: "uppercase",
   },
   logoutBtn: {
     fontSize: "0.75rem",
@@ -214,26 +229,59 @@ const styles = {
     textTransform: "uppercase",
     transition: "all 0.3s ease",
     boxShadow: "0 4px 15px rgba(201, 169, 110, 0.3)",
+  },
+  mobileMenu: {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100vh',
+    backgroundColor: 'var(--color-dark)',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '30px',
+    zIndex: 3000,
+    animation: 'fadeIn menuFade 0.4s ease forwards',
+  },
+  closeMenuBtn: {
+    position: 'absolute',
+    top: '30px',
+    right: '30px',
+    fontSize: '3rem',
+    background: 'none',
+    border: 'none',
+    color: 'var(--color-gold)',
+    cursor: 'pointer',
   }
 };
 
 const injectCSS = `
 @media (max-width: 768px) {
-  .hamburger-icon { display: flex !important; }
-  .nav-links {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    flex-direction: column;
-    background-color: var(--color-dark);
-    padding: 30px;
-    gap: 20px !important;
-    display: none !important;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+  .desktop-only { display: none !important; }
+  .hamburger-icon { display: flex !important; margin-left: auto; }
+  .navbar-logo { height: 56px !important; }
+  .navbar-brand {
+    position: absolute !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
   }
-  .nav-links.open { display: flex !important; pointer-events: auto; }
-  .navbar-logo { height: 45px !important; }
+  .mobile-menu a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-family: var(--font-heading);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+}
+@media (min-width: 769px) {
+  .mobile-only { display: none !important; }
+}
+@keyframes menuFade {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 .navbar-logo:hover { transform: scale(1.05); }
 .nav-links a:hover { color: var(--color-gold) !important; }

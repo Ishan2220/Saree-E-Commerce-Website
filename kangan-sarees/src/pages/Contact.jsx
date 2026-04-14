@@ -19,7 +19,7 @@ const Contact = () => {
         <div style={styles.contactDetails}>
            <div style={styles.infoCard} className="reveal stagger-child">
              <h3 style={styles.infoTitle}>Call Us</h3>
-             <p style={styles.infoText}>+91 9371212625 <br /> +91 9011193300</p>
+             <p style={styles.infoText}>+91 8767026504 <br /> +91 9011193300</p>
            </div>
            <div style={styles.infoCard} className="reveal stagger-child">
              <h3 style={styles.infoTitle}>Email Us</h3>

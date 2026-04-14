@@ -36,7 +36,7 @@ const ProductCard = ({ product }) => {
             e.stopPropagation();
             const categoryText = product.category || product.subcategory ? ` (${product.category || product.subcategory})` : "";
             const msg = `I am interested in ${product.name}${categoryText}`;
-            window.open(`https://wa.me/919371212625?text=${encodeURIComponent(msg)}`, "_blank");
+            window.open(`https://wa.me/918767026504?text=${encodeURIComponent(msg)}`, "_blank");
           }}
         >
           Enquire Now

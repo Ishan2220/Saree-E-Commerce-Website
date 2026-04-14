@@ -9,7 +9,7 @@ const FloatingWhatsApp = () => {
   return (
     <div style={styles.container}>
       <a
-        href="https://wa.me/919371212625?text=Hello%20Kangan%20Sarees!"
+        href="https://wa.me/918767026504?text=Hello%20Kangan%20Sarees!"
         target="_blank"
         rel="noopener noreferrer"
         style={{ ...styles.button, ...styles.whatsapp }}

@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState, useRef } from "react";
 
 import CategoryScrollRow from "../components/CategoryScrollRow";
+import HomeDecorCategories from "../components/HomeDecorCategories";
+import ShirtingSuiting from "../components/ShirtingSuiting";
 import useScrollReveal from '../hooks/useScrollReveal';
 import { subscribeToCatalog } from "../utils/catalogStorage";
 
@@ -71,16 +73,25 @@ const Products = () => {
       <div className="container" style={styles.pageContent}>
         {orderedCategories.map((catName, idx) => (
           <div key={catName}>
-            <CategoryScrollRow
-              categoryName={catName}
-              products={categorizedProducts[catName]}
-              onViewAll={handleViewAll}
-            />
+            {catName === "Home Decor" ? (
+              <HomeDecorCategories />
+            ) : (
+              <CategoryScrollRow
+                categoryName={catName}
+                products={categorizedProducts[catName]}
+                onViewAll={handleViewAll}
+              />
+            )}
             {idx < orderedCategories.length - 1 && <div style={styles.sectionDivider}></div>}
           </div>
         ))}
+      </div>
 
-        {/* Expanded "View All" Grid */}
+      {/* Shirting & Suiting Section */}
+      <ShirtingSuiting />
+
+      {/* Expanded "View All" Grid */}
+      <div className="container" style={{ padding: "0 20px 100px" }}>
         {expandedCategory && categorizedProducts[expandedCategory] && (
           <section ref={expandedRef} style={styles.expandedSection} className="reveal visible">
             <div style={styles.expandedHeader}>
@@ -120,7 +131,7 @@ const Products = () => {
                           e.stopPropagation();
                           const categoryText = p.category || p.subcategory || expandedCategory ? ` (${p.category || p.subcategory || expandedCategory})` : "";
                           const msg = `I am interested in ${p.name}${categoryText}`;
-                          window.open(`https://wa.me/919371212625?text=${encodeURIComponent(msg)}`, "_blank");
+                          window.open(`https://wa.me/918767026504?text=${encodeURIComponent(msg)}`, "_blank");
                         }}
                       >
                         Enquire Now

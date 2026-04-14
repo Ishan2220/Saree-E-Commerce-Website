@@ -137,7 +137,7 @@ const CategoryScrollRow = ({ categoryName, products, onViewAll }) => {
                     e.stopPropagation();
                     const categoryText = p.category || p.subcategory || categoryName ? ` (${p.category || p.subcategory || categoryName})` : "";
                     const msg = `I am interested in ${p.name || p.subcategory}${categoryText}`;
-                    window.open(`https://wa.me/919371212625?text=${encodeURIComponent(msg)}`, "_blank");
+                    window.open(`https://wa.me/918767026504?text=${encodeURIComponent(msg)}`, "_blank");
                   }}
                 >
                   Enquire Now

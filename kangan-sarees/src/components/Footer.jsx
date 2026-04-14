@@ -57,7 +57,7 @@ const Footer = () => {
           </div>
           <div style={styles.iconText}>
             <span style={styles.goldIcon}>📞</span>
-            <p style={styles.text}>+91 9371212625 <br/> +91 9011193300</p>
+            <p style={styles.text}>+91 8767026504 <br/> +91 9011193300</p>
           </div>
           <div style={styles.iconText}>
             <span style={styles.goldIcon}>✉️</span>
@@ -135,7 +135,7 @@ const styles = {
     gap: "18px",
   },
   brandImage: {
-    height: "60px",
+    height: "75px",
     width: "auto",
     objectFit: "contain",
     marginBottom: "8px",
