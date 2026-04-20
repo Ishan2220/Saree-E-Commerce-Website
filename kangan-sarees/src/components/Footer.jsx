@@ -6,10 +6,10 @@ const Footer = () => {
       <div className="container" style={styles.container}>
         {/* Column 1: Brand */}
         <div style={styles.column}>
-          <img src="/logo.png" alt="Kangan Sarees Logo" style={styles.brandImage} />
+          <img src="/logo.png" alt="Kangan Sarees Logo" style={styles.brandImage} loading="lazy" />
           <p style={styles.text}>
-            Kolhapur's premier destination for ethnic fashion. A legacy of 25+ years, 
-            blending traditional craftsmanship with contemporary elegance across 25,000 sq ft.
+            Kolhapur's premier destination for ethnic fashion. Renowned as the best saree shop in Gandhinagar, 
+            offering a legacy of 25+ years in fancy sarees, dress materials, and ready-made elegance across 25,000 sq ft.
           </p>
           <div style={styles.socials}>
             {[
@@ -24,7 +24,7 @@ const Footer = () => {
                 )
               },
               {
-                link: "https://www.facebook.com/kangansarees/",
+                link: "https://www.facebook.com/kangansaree/",
                 icon: (
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
@@ -53,7 +53,11 @@ const Footer = () => {
           <h4 style={styles.title}>Our Showroom</h4>
           <div style={styles.iconText}>
             <span style={styles.goldIcon}>📍</span>
-            <p style={styles.text}>Plot No. 1, Gandhinagar Main Rd, Gandhinagar, Kolhapur - 416119</p>
+            <p style={styles.text}><strong>Flagship:</strong> Plot No. 1, Gandhinagar Main Rd, Gandhinagar, Kolhapur - 416119</p>
+          </div>
+          <div style={styles.iconText}>
+            <span style={styles.goldIcon}>📍</span>
+            <p style={styles.text}><strong>Branch:</strong> Near Gandhinagar, Kolhapur, Maharashtra</p>
           </div>
           <div style={styles.iconText}>
             <span style={styles.goldIcon}>📞</span>

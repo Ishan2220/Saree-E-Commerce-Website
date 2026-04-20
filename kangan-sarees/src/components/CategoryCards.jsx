@@ -51,6 +51,7 @@ const CategoryCards = ({ categories, selectedName, onSelect }) => {
                       src={c.image}
                       alt={c.name}
                       className="lux-category-card__img"
+                      loading="lazy"
                       onError={(e) => {
                         e.target.style.display = "none";
                       }}

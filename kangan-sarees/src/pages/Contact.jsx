@@ -8,7 +8,8 @@ const Contact = () => {
         <div className="container">
           <h1>Contact Us</h1>
           <p style={{ color: "rgba(255,255,255,0.8)", fontSize: "1.1rem" }}>
-            We would love to hear from you. Reach out or visit our store.
+            Reach out to the finest destination for fancy sarees, dress materials, and ready-made collections. 
+            Experience the best saree shop near you.
           </p>
         </div>
       </div>
@@ -35,9 +36,9 @@ const Contact = () => {
            </div>
         </div>
 
-        {/* Google Maps Section */}
+        {/* Google Maps Section with SEO Keywords */}
         <div style={styles.mapSection} className="reveal">
-          <h2 style={styles.sectionTitle}>Visit Our Store</h2>
+          <h2 style={styles.sectionTitle}>Visit the Best Saree Shop in Gandhinagar, Kolhapur</h2>
           <div className="gold-divider center" />
           
           <div className="map-wrapper" style={styles.mapWrapper}>

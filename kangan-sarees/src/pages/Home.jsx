@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { subscribeToCatalog } from "../utils/catalogStorage";
+import VideoHero from "../components/VideoHero";
 import ProductCard from "../components/ProductCard";
 import ClientCarousel from "../components/ClientCarousel";
 import FeaturedBanner from "../components/FeaturedBanner";
@@ -25,26 +26,8 @@ const Home = () => {
 
   return (
     <div className="fade-in">
-      {/* 1. Hero Section */}
-      <section style={styles.hero}>
-        <div style={styles.heroOverlay}>
-          <div className="container" style={styles.heroContent}>
-            <span className="section-label" style={{ color: "var(--color-gold-light)" }}>Established 2000</span>
-            <h1 style={styles.heroTitle}>Elegance in Every Drape.</h1>
-            <p style={styles.heroSubtitle}>
-              Experience Kolhapur&apos;s most trusted destination for premium sarees,
-              traditional craftsmanship, and timeless ethnic fashion.
-            </p>
-            <div style={styles.actionGroup}>
-              <Link to="/products" className="btn-primary">Explore Collection</Link>
-              <Link to="/contact" className="btn-outline-white">Visit Showroom</Link>
-            </div>
-          </div>
-        </div>
-        <div style={styles.scrollIndicator}>
-          <div style={styles.scrollChevron}></div>
-        </div>
-      </section>
+      {/* 1. Video Hero Section */}
+      <VideoHero />
 
       {/* 2. Featured Collections Slider (EDITORAL) */}
       <FeaturedBanner />
@@ -89,18 +72,18 @@ const Home = () => {
           <div style={styles.featuresGrid}>
             {[
               {
-                title: "25,000 sq ft Showroom",
-                text: "Step into Kolhapur's largest fully air-conditioned retail space designed for luxury and comfort.",
+                title: "Best Saree Shop in Gandhinagar",
+                text: "Step into Kolhapur's largest destination for fancy sarees, dress materials, and ready-made fashion at our 25,000 sq ft flagship.",
                 icon: "🏛️"
               },
               {
                 title: "Exquisite Variety",
-                text: "From bridal Paithanis to designer gowns, explore 10,000+ handpicked pieces under one roof.",
+                text: "From bridal Paithanis to designer gowns, explore 10,000+ handpicked pieces under one roof in Kolhapur.",
                 icon: "✨"
               },
               {
                 title: "Generational Trust",
-                text: "Serving families across 10+ districts since 2000 with honesty, quality, and legacy.",
+                text: "Serving families across 10+ districts since 2000 as the top saree shop near you with honesty, quality, and legacy.",
                 icon: "🤝"
               }
             ].map((f, i) => (
@@ -131,68 +114,6 @@ const Home = () => {
 };
 
 const styles = {
-  hero: {
-    backgroundImage: `url('/images/kk-hero.png')`,
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    height: "100vh",
-    position: "relative",
-    display: "flex",
-    alignItems: "center",
-    marginTop: "-69px", // Offset for fixed navbar
-    backgroundAttachment: "fixed",
-  },
-  heroOverlay: {
-    position: "absolute",
-    inset: 0,
-    background: "linear-gradient(to bottom, rgba(74, 0, 17, 0.45) 0%, rgba(74, 0, 17, 0.25) 50%, rgba(74, 0, 17, 0.6) 100%)",
-    display: "flex",
-    alignItems: "center",
-    paddingTop: "60px",
-  },
-  heroContent: {
-    color: "#ffffff",
-    maxWidth: "800px",
-    zIndex: 1,
-  },
-  heroTitle: {
-    color: "#ffffff",
-    fontSize: "clamp(3rem, 7vw, 5.5rem)",
-    lineHeight: "1",
-    marginBottom: "24px",
-    fontFamily: "var(--font-heading)",
-    fontWeight: "700",
-    textShadow: "0 10px 30px rgba(0,0,0,0.3)",
-  },
-  heroSubtitle: {
-    fontSize: "clamp(1.1rem, 2vw, 1.4rem)",
-    marginBottom: "48px",
-    color: "rgba(255, 255, 255, 0.95)",
-    fontFamily: "var(--font-body)",
-    fontWeight: "400",
-    lineHeight: "1.6",
-    maxWidth: "600px",
-  },
-  actionGroup: {
-    display: "flex",
-    gap: "20px",
-    flexWrap: "wrap",
-  },
-  scrollIndicator: {
-    position: "absolute",
-    bottom: "40px",
-    left: "50%",
-    transform: "translateX(-50%)",
-    zIndex: 10,
-  },
-  scrollChevron: {
-    width: "30px",
-    height: "30px",
-    borderBottom: "2px solid rgba(255,255,255,0.8)",
-    borderRight: "2px solid rgba(255,255,255,0.8)",
-    transform: "rotate(45deg)",
-    animation: "scrollChevron 2s infinite",
-  },
   sectionPadding: {
     padding: "var(--section-padding)",
   },
@@ -259,11 +180,6 @@ const styles = {
 };
 
 const injectStyles = `
-  @media (max-width: 768px) {
-    .heroTitle { font-size: 3rem !important; }
-    .actionGroup { width: 100%; }
-    .actionGroup a { width: 100%; text-align: center; }
-  }
   .glass-card:hover .featureIcon { transform: scale(1.1) rotate(5deg); transition: transform 0.4s ease; }
 `;
 
